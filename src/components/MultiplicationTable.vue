@@ -1,13 +1,16 @@
 <script setup>
 /* All js lives here */
+import InputField from "./InputField.vue";
 
 import {ref} from "vue";
 
 const name = ref('Nikolai')
 const numOfRows = ref(10)
 const numOfCols = ref(10)
+const rowToHighlight = ref(1)
+const columnToHighlight = ref(10)
+const showTheMath = ref(false)
 </script>
-
 
 <template>
   <section class="container">
@@ -18,27 +21,52 @@ const numOfCols = ref(10)
     <h2 v-else>Please tell us your name</h2>
 
     <div class="inputs">
+
+      <input-field label-text="What's your name?"/>
+      <input-field label-text="How many rows do you want?"/>
+      <InputField label-text="Which row to highlight?"/>
+
+
       <label>
         Name:
         <input type="text" v-model="name"/>
       </label>
 
       <label>
-        How many rows do you want?
+        <strong>How many rows do you want?</strong>
         <input type="number" v-model.number="numOfRows"/>
+      </label>
+
+      <label>
+        Which row to highlight?
+        <input type="number" v-model.number="rowToHighlight"/>
       </label>
 
       <label>
         How many columns do you want?
         <input type="number" v-model.number="numOfCols"/>
       </label>
+
+      <label>
+        Which column should we highlight?
+        <input type="number" v-model.number="columnToHighlight"/>
+      </label>
+
+      <label>
+        Show me the math?
+        <input type="checkbox" v-model="showTheMath"/>
+      </label>
     </div>
 
 
     <table>
-      <tr v-for="row in numOfRows">
-        <td v-for="col in numOfCols">
+      <tr v-for="row in numOfRows" :class="{ 'highlight' : row === rowToHighlight }">
+        <td v-for="col in numOfCols" :class="{ 'highlight' : col === columnToHighlight }">
           {{ row * col }}
+
+          <div v-if="showTheMath" class="show-the-math">
+            {{ row }} x {{ col }}
+          </div>
         </td>
       </tr>
     </table>
@@ -76,13 +104,31 @@ section.container {
   }
 }
 
-
 table {
   border: 4px solid black;
 
   tr {
+    &.highlight {
+      background-color: blue;
+      color: white;
+    }
+
+    &:hover {
+      background-color: lightblue;
+    }
+
     td {
       border: 1px dotted red;
+      text-align: center;
+
+      &.highlight {
+        background-color: blue;
+        color: white;
+      }
+
+      div.show-the-math {
+        font-size: 10px;
+      }
     }
   }
 }
