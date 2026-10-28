@@ -3,11 +3,14 @@
 import InputField from "./InputField.vue";
 
 import {ref} from "vue";
+import LovelyFrame from "./LovelyFrame.vue";
 
 const name = ref('Nikolai')
 const numOfRows = ref(10)
-const numOfCols = ref(10)
 const rowToHighlight = ref(1)
+
+
+const numOfCols = ref(10)
 const columnToHighlight = ref(10)
 const showTheMath = ref(false)
 </script>
@@ -22,54 +25,64 @@ const showTheMath = ref(false)
 
     <div class="inputs">
 
-      <input-field label-text="What's your name?"/>
-      <input-field label-text="How many rows do you want?"/>
-      <InputField label-text="Which row to highlight?"/>
+      <input-field
+          label-text="What's your name?"
+          v-model="name"/>
 
+      <input-field
+          label-text="How many rows do you want?"
+          input-type="number"
+          min="10"
+          v-model="numOfRows"/>
 
-      <label>
-        Name:
-        <input type="text" v-model="name"/>
-      </label>
+      <InputField
+          label-text="Which row to highlight?"
+          input-type="number"
+          min="1"
+          :max="numOfRows"
+          v-model="rowToHighlight"/>
 
-      <label>
-        <strong>How many rows do you want?</strong>
-        <input type="number" v-model.number="numOfRows"/>
-      </label>
+      <input-field
+          label-text="How many columns do you want?"
+          input-type="number"
+          min="5"
+          v-model="numOfCols"/>
 
-      <label>
-        Which row to highlight?
-        <input type="number" v-model.number="rowToHighlight"/>
-      </label>
+      <input-field
+          label-text="Which column do you want to highlight?"
+          input-type="number"
+          min="1"
+          :max="numOfCols"
+          v-model="columnToHighlight"/>
 
-      <label>
-        How many columns do you want?
-        <input type="number" v-model.number="numOfCols"/>
-      </label>
+      <lovely-frame>
+        <input-field
+            label-text="Show the math?"
+            input-type="checkbox"
+            v-model="showTheMath"/>
+      </lovely-frame>
 
-      <label>
-        Which column should we highlight?
-        <input type="number" v-model.number="columnToHighlight"/>
-      </label>
-
-      <label>
-        Show me the math?
-        <input type="checkbox" v-model="showTheMath"/>
-      </label>
     </div>
 
 
-    <table>
-      <tr v-for="row in numOfRows" :class="{ 'highlight' : row === rowToHighlight }">
-        <td v-for="col in numOfCols" :class="{ 'highlight' : col === columnToHighlight }">
-          {{ row * col }}
+    <p>Lovely frame!</p>
 
-          <div v-if="showTheMath" class="show-the-math">
-            {{ row }} x {{ col }}
-          </div>
-        </td>
-      </tr>
-    </table>
+    <lovely-frame>Hello world!</lovely-frame>
+
+
+    <lovely-frame>
+      <table>
+        <tr v-for="row in numOfRows" :class="{ 'highlight' : row === rowToHighlight }">
+          <td v-for="col in numOfCols" :class="{ 'highlight' : col === columnToHighlight }">
+            {{ row * col }}
+
+            <div v-if="showTheMath" class="show-the-math">
+              {{ row }} x {{ col }}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </lovely-frame>
 
   </section>
 

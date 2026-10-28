@@ -3,14 +3,33 @@ const props = defineProps({
   labelText: {
     type: String,
     required: true,
-  }
+  },
+  inputType: {
+    type: String,
+    required: false,
+    default: 'text',
+  },
+  min: {
+    type: String,
+    required: false,
+  },
+  max: {
+    type: String,
+    required: false,
+  },
 })
+
+const model = defineModel()
 </script>
 
 <template>
   <section class="input-field">
     <strong>{{ props.labelText }}</strong>
-    <input type="text" />
+    <input :type="props.inputType"
+           v-model="model"
+           :min="props.min"
+           :max="props.max"
+    />
   </section>
 </template>
 
