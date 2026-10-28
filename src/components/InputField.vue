@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
   <section class="input-field">
     <strong>{{ props.labelText }}</strong>
-    <div>the input itself</div>
+    <input type="text" />
   </section>
 </template>
 
